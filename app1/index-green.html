@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blue-Green Deployment Demo - GREEN</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #56ab2f 0%, #a8e6cf 100%);
+            color: white;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .container {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 40px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+        }
+        h1 {
+            font-size: 3em;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        .version {
+            font-size: 2em;
+            font-weight: bold;
+            background: rgba(255, 255, 255, 0.3);
+            padding: 15px 30px;
+            border-radius: 25px;
+            margin: 20px 0;
+            display: inline-block;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            border: 3px solid rgba(255, 255, 255, 0.5);
+        }
+        .info {
+            margin: 20px 0;
+            font-size: 1.1em;
+        }
+        .status {
+            background: #56ab2f;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            margin: 10px;
+            display: inline-block;
+        }
+        .timestamp {
+            font-size: 0.9em;
+            opacity: 0.8;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🟢 Blue-Green Deployment - GREEN Version</h1>
+        <div class="version" id="version">Version: GREEN</div>
+        <div class="info">
+            <div class="status">✅ GREEN Application Running</div>
+            <p>This is the <strong>GREEN</strong> version of the blue-green deployment on EKS</p>
+            <p><strong>Pod Name:</strong> <span id="podName">Loading...</span></p>
+            <p><strong>Environment:</strong> <span id="environment">GREEN</span></p>
+        </div>
+        <div class="timestamp" id="timestamp"></div>
+    </div>
+
+    <script>
+        // Update timestamp
+        function updateTimestamp() {
+            document.getElementById('timestamp').textContent = 
+                'Last updated: ' + new Date().toLocaleString();
+        }
+
+        // Simulate getting pod information
+        function updatePodInfo() {
+            const podName = window.location.hostname || 'green-pod-' + Math.random().toString(36).substr(2, 9);
+            document.getElementById('podName').textContent = podName;
+        }
+
+        // Update page every 5 seconds
+        setInterval(updateTimestamp, 5000);
+
+        // Initial updates
+        updateTimestamp();
+        updatePodInfo();
+    </script>
+</body>
+</html>
