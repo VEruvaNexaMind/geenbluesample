@@ -1,0 +1,23 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: bluegreen-demo-ingress
+  namespace: sbx
+  annotations:
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/target-type: ip
+    alb.ingress.kubernetes.io/healthcheck-path: /health
+    alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 80}]'
+    alb.ingress.kubernetes.io/subnets: subnet-04fa0715e1208c54c,subnet-027a5071bf57af9af  # Add your public subnet IDs here
+spec:
+  ingressClassName: alb  # Add the correct ingress class
+  rules:
+  - http:  # Remove the host requirement
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: bluegreen-demo-service
+            port:
+              number: 80

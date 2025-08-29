@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bluegreen-demo-green
+  namespace: sbx
+  labels:
+    app: bluegreen-demo
+    version: green
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: bluegreen-demo
+      version: green
+  template:
+    metadata:
+      labels:
+        app: bluegreen-demo
+        version: green
+    spec:
+      containers:
+      - name: bluegreen-demo
+        image: 423623850112.dkr.ecr.us-west-2.amazonaws.com/bluegreen-demo:green
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 3000
+        env:
+        - name: PORT
+          value: "3000"
+        # VERSION is now set at build time in the image, don't override it
+        resources:
+          requests:
+            memory: "64Mi"
+            cpu: "50m"
+          limits:
+            memory: "128Mi"
+            cpu: "100m"
+        livenessProbe:
+          httpGet:
+            path: /live
+            port: 3000
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /ready
+            port: 3000
+          initialDelaySeconds: 5
+          periodSeconds: 5
+      terminationGracePeriodSeconds: 30

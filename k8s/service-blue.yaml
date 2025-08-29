@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: bluegreen-demo-blue
+  namespace: sbx
+  labels:
+    app: bluegreen-demo
+    version: blue
+spec:
+  selector:
+    app: bluegreen-demo
+    version: blue
+  ports:
+  - port: 80
+    targetPort: 3000
+    protocol: TCP
+  type: ClusterIP
